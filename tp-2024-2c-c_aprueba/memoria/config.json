@@ -1,0 +1,23 @@
+{
+    "ip": "127.0.0.1",
+    "port": 3062,
+    "memory_size": 2048,
+    "instruction_path": "/home/utnso/TPSO2C/tp-2024-2c-c_aprueba/scripprueba/",
+    "response_delay": 10,
+    "ip_kernel": "127.0.0.1",
+    "port_kernel": 3061,
+    "ip_cpu": "127.0.0.1",
+    "port_cpu": 3064,
+    "ip_filesystem": "127.0.0.1",
+    "port_filesystem": 3063,
+    "scheme": "DINAMICAS",
+    "search_algorithm": "BEST",
+    "partitions": [
+        32,
+        16,
+        64,
+        128,
+        16
+    ],
+    "log_level": "TRACE"
+}
