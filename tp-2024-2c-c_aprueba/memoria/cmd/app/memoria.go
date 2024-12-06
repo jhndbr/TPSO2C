@@ -1,0 +1,61 @@
+package main
+
+import (
+	"fmt"
+	"log/slog"
+	"sync"
+
+	"github.com/sisoputnfrba/tp-golang/memoria/internal/core/entity"
+	"github.com/sisoputnfrba/tp-golang/memoria/internal/core/usecase"
+	"github.com/sisoputnfrba/tp-golang/memoria/internal/infra/config"
+	"github.com/sisoputnfrba/tp-golang/memoria/internal/infra/http"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	loglevel := config.GetInstance().LogLevel
+	switch loglevel {
+	case "INFO":
+		slog.SetLogLoggerLevel(slog.LevelInfo)
+	case "DEBUG":
+		slog.SetLogLoggerLevel(slog.LevelDebug)
+	case "ERROR":
+		slog.SetLogLoggerLevel(slog.LevelError)
+	default:
+		slog.SetLogLoggerLevel(slog.LevelInfo)
+		slog.Info("LogLevel invalido - Seteado en INFO por default")
+	}
+	conf := config.GetInstance()
+
+	if conf == nil {
+		slog.Error("Error: la configuración no se cargó correctamente.")
+		return
+	}
+
+	slog.Debug("->", "puerto", conf.Port)
+	slog.Debug("->", "Search:", conf.MemorySize)
+	slog.Debug("->", "Algorithm:", conf.SearchAlgorithm)
+
+	entity.InicializarMemoriaUsuario(conf.MemorySize)
+	entity.InicializarMemoriaSistema(conf.MemorySize)
+
+	if conf.Scheme == "FIJAS" {
+		usecase.InicializarParticion(conf.Partitions)
+	} else if conf.Scheme == "DINAMICAS" {
+		slog.Debug("Inicializando memoria dinámica")
+		usecase.InicializarMemoriaDinamica(conf.MemorySize)
+
+	}
+
+	addr := fmt.Sprintf(conf.IP, conf.Port)
+	slog.Debug("Starting Up", "Address", addr)
+
+	wg.Add(1)
+	go func() {
+		err := http.Server(conf.IP, conf.Port)
+		if err != nil {
+			slog.Error("Error to start Server", "Port", conf.Port)
+		}
+	}()
+	wg.Wait()
+}
