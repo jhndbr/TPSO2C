@@ -8,13 +8,13 @@ cpu_path = "/home/utnso/TPSO2C/tp-2024-2c-c_aprueba/cpu/config.json"
 
 # IPs y puertos hardcodeados
 config = {
-    "ipkernel": "127.0.0.1",
+    "ipkernel": "192.168.1.164",
     "portkernel": 3061,
-    "ipmemoria": "127.0.0.1",
+    "ipmemoria": "192.168.1.160",
     "portmemoria": 3062,
-    "ipfilesystem": "127.0.0.1",
+    "ipfilesystem": "192.168.1.53",
     "portfilesystem": 3063,
-    "ipcpu": "127.0.0.1",
+    "ipcpu": "192.168.1.164",
     "portcpu": 3064
 }
 
