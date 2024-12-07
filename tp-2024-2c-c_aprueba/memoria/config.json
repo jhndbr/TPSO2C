@@ -14,13 +14,10 @@
     "search_algorithm": "BEST",
     "partitions": [
         32,
-        32,
-        32,
-        32,
-        32,
-        32,
-        32,
-        32
+        16,
+        64,
+        128,
+        16
     ],
-    "log_level": "INFO"
+    "log_level": "TRACE"
 }

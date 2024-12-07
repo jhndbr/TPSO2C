@@ -74,13 +74,10 @@ func main() {
 		slog.SetLogLoggerLevel(slog.LevelInfo)
 	case "DEBUG":
 		slog.SetLogLoggerLevel(slog.LevelDebug)
-	case "ERROR":
+	case "Error":
 		slog.SetLogLoggerLevel(slog.LevelError)
-	default:
-		slog.SetLogLoggerLevel(slog.LevelInfo)
-		slog.Info("LogLevel invalido - Seteado en INFO por default")
 	}
-
+	slog.SetLogLoggerLevel(slog.LevelInfo)
 	var filePath, size string
 	//filePath = "RECURSOS_MUTEX_PROC"
 	//size = "32"

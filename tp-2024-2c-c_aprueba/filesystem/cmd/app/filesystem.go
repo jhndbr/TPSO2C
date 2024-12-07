@@ -14,18 +14,7 @@ var MOUNT_DIR = "MOUNT_DIR"
 
 func main() {
 	// Configuro el Log de la Aplicación
-	loglevel := config.GetInstance().LogLevel
-	switch loglevel {
-	case "INFO":
-		slog.SetLogLoggerLevel(slog.LevelInfo)
-	case "DEBUG":
-		slog.SetLogLoggerLevel(slog.LevelDebug)
-	case "ERROR":
-		slog.SetLogLoggerLevel(slog.LevelError)
-	default:
-		slog.SetLogLoggerLevel(slog.LevelInfo)
-		slog.Info("LogLevel invalido - Seteado en INFO por default")
-	}
+	slog.SetLogLoggerLevel(slog.LevelInfo)
 	conf := config.GetInstance()
 	if conf == nil {
 		slog.Error("Error loading config: config is nil")
@@ -39,9 +28,9 @@ func main() {
 	//usecase.DesmarcarBloqueOcupado(3)
 	//usecase.DesmarcarBloqueOcupado(4)
 
-	usecase.VerContenidoBitmap()
-	usecase.VerContenidoArchivoBitmapBinario()
-	usecase.VerContenidoArchivoBitmapHexa()
+	//usecase.VerContenidoBitmap()
+	//usecase.VerContenidoArchivoBitmapBinario()
+	//usecase.VerContenidoArchivoBitmapHexa()
 
 	// funcion para ver si lee bien los enteros del bloque de indice especificado
 
@@ -67,11 +56,11 @@ func iniciar_filesystem(conf *config.Config) {
 	// BITMAP
 	if !usecase.ExisteArchivo(MOUNT_DIR + "/bitmap.dat") {
 		slog.Info("creando bitmap.dat")
-		usecase.Crear_archivo_bitmap(MOUNT_DIR+"/bitmap.dat", conf.Block_count/8)
+		usecase.Crear_archivo_bitmap(MOUNT_DIR+"/bitmap.dat", conf.Block_count)
 	} else {
 		slog.Info("bitmap.dat ya creado")
 		slog.Info("cargando bitmap.dat")
-		usecase.Cargar_bitmap(MOUNT_DIR+"/bitmap.dat", conf.Block_count/8)
+		usecase.Cargar_bitmap(MOUNT_DIR+"/bitmap.dat", conf.Block_count)
 	}
 
 	// BLOQUES

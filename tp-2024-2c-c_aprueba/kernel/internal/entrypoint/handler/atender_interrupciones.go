@@ -31,7 +31,6 @@ func AtenderInterrupciones(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusCreated)
 		switch interrupter.Motivo {
 		case "SEGMENTATION FAULT":
-			slog.Info("Finaliza por SEGMENTATION FAULT", "PID:", interrupter.PID)
 			planificador.AtenderProcessExit(interrupter.PID)
 			planificador.SignalPlanificador()
 		case "DESALOJO":

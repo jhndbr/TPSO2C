@@ -37,7 +37,7 @@ func CrearHilo(pid uint32, filepath string) error {
 	if err != nil {
 		return err
 	}
-	//slog.Info("Se crea el hilo - Estado: READY", "PID:", nuevoContexto)
+	slog.Info("Se crea el hilo - Estado: READY", "PID:", nuevoContexto)
 	return nil
 }
 

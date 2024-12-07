@@ -31,12 +31,14 @@ var semPlanificacionDetenida semaphore.Semaphore
 var semCompactacionFinalizada semaphore.Semaphore
 var semInterrupter semaphore.Semaphore
 var wg sync.WaitGroup
+var mSyscallInt sync.Mutex
 
 // VARIABLES LOCALES
 var hiloEnEjecucion *entity.TCB = nil
 var procesoEnEjecucion *entity.PCB
 var prioridadActual uint32 = 99999999
 var algoritmo string
+var quantumEnd = false
 
 // BOOLS
 var interrupted bool = false
@@ -115,6 +117,14 @@ func GetInterrupted() bool {
 	return interrupted
 }
 
-func ObtenerHiloEXEC() *entity.TCB {
-	return hiloEnEjecucion
+func LockMutexSyscall() {
+	mSyscallInt.Lock()
+}
+
+func UnlockMutexSyscall() {
+	mSyscallInt.Unlock()
+}
+
+func IndicarAtencionSyscall(a bool) {
+	syscallAtendida = a
 }

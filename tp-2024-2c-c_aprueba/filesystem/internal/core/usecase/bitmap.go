@@ -3,11 +3,12 @@ package usecase
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/sisoputnfrba/tp-golang/filesystem/internal/core/entity"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/sisoputnfrba/tp-golang/filesystem/internal/core/entity"
 )
 
 func Crear_archivo_bitmap(pathBitmap string, tamanio int) {
@@ -128,7 +129,7 @@ func VerContenidoArchivoBitmapHexa() {
 	}
 
 	// Imprimir el contenido en formato hexadecimal
-	fmt.Printf("Contenido de bitmap.dat en formato hexadecimal:\n%s\n", strings.TrimSpace(formattedHex.String()))
+	fmt.Printf("Contenido de bitmap.dat:\n%s\n", strings.TrimSpace(formattedHex.String()))
 
 }
 func VerContenidoBitmap() {

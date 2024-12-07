@@ -189,21 +189,21 @@ func planificarColasMultinivel() {
 		go timer(hiloEnEjecucion)
 		_ = semPlanificador.Wait()
 
-		//hilos6 := repository.GetHilosCola6()
-		//for i := 0; i < hilos6.Size(); i++ {
-		//	hi, _ := hilos6.Get(i)
-		//	slog.Debug(fmt.Sprintf("COLA6: Posicion:%d, PID=%d, TID=%d\n", i, hi.PID, hi.TID))
-		//}
-		//
-		//hilosBLOCKED := repository.GetHilosBLOCKED()
-		//for i := 0; i < hilosBLOCKED.Size(); i++ {
-		//	hi, _ := hilosBLOCKED.Get(i)
-		//	slog.Debug(fmt.Sprintf("COLABLOCKED: Posicion:%d, PID=%d, TID=%d\n", i, hi.PID, hi.TID))
-		//}
+		hilos6 := repository.GetHilosCola6()
+		for i := 0; i < hilos6.Size(); i++ {
+			hi, _ := hilos6.Get(i)
+			fmt.Printf("COLA6: Posicion:%d, PID=%d, TID=%d\n", i, hi.PID, hi.TID)
+		}
+
+		hilosBLOCKED := repository.GetHilosBLOCKED()
+		for i := 0; i < hilosBLOCKED.Size(); i++ {
+			hi, _ := hilosBLOCKED.Get(i)
+			fmt.Printf("COLABLOCKED: Posicion:%d, PID=%d, TID=%d\n", i, hi.PID, hi.TID)
+		}
 		//hilosEXIT := repository.GetHilosEXIT()
 		//for i := 0; i < hilosEXIT.Size(); i++ {
 		//	hi, _ := hilosEXIT.Get(i)
-		//	slog.Debug(fmt.Sprintf("COLABLOCKED: Posicion:%d, PID=%d, TID=%d\n", i, hi.PID, hi.TID))
+		//	fmt.Printf("COLABLOCKED: Posicion:%d, PID=%d, TID=%d\n", i, hi.PID, hi.TID)
 		//}
 	}
 }
@@ -267,7 +267,7 @@ func AtenderThreadExit(PID uint32, TID uint32) {
 
 	if hiloEnEjecucion.TID != TID || hiloEnEjecucion.PID != PID {
 
-		slog.Error("Se intenta finalizar un hilo distinto al de ejecucion.")
+		slog.Error("Se intenta desalojar un hilo distinto al de ejecucion.")
 		return
 	}
 	//pasa el hilo a EXIT
@@ -486,7 +486,7 @@ func ProcessIOQueue() {
 			hilo.Add(req.TCB)
 			repository.DesbloquearHilosSegunAlgoritmo(hilo)
 			repository.AddPrioridadEnOrden(req.TCB.Priority)
-			slog.Info("Hilo finalizó IO y pasa a READY", "PID:", req.TCB.PID, "TID:", req.TCB.TID)
+			slog.Info("(<PID>:<TID>) finalizó IO y pasa a READY")
 			if req.TCB.Priority < prioridadActual && algoritmo != "FIFO" {
 				prioridadActual = req.TCB.Priority
 				replanificar = true
@@ -536,3 +536,12 @@ func InterrumpirCPU(hilo *entity.TCB) {
 
 	SignalPlanificador()
 }
+
+func VuelveAReady() {
+	if !repository.EstaHiloEnBLOCKED(hiloEnEjecucion.PID, hiloEnEjecucion.TID) && !repository.EstaHiloEnEXIT(hiloEnEjecucion.PID, hiloEnEjecucion.TID) && !repository.EstaHiloEnREADY(hiloEnEjecucion) {
+		repository.AgregarHiloEnREADYSegunAlgoritmo(hiloEnEjecucion)
+	}
+
+}
+
+var syscallAtendida = false

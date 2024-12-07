@@ -6,6 +6,6 @@
     "mount_dir": "/home/utnso/mount_dir",
     "block_size": 32,
     "block_count": 200,
-    "block_access_delay": 25,
-    "log_level": "INFO"
+    "block_access_delay": 1,
+    "log_level": "DEBUG"
 }

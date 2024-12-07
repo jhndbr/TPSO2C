@@ -3,6 +3,8 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/sisoputnfrba/tp-golang/memoria/internal/core/usecase"
 )
@@ -32,20 +34,24 @@ func CrearHiloHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func FinalizarHiloHandler(w http.ResponseWriter, r *http.Request) {
-	var requestBody struct {
-		PID int `json:"pid"`
-		TID int `json:"tid"`
-	}
+	pidStr := r.URL.Query().Get("pid")
+	tidStr := r.URL.Query().Get("tid")
 
-	// Decodificar el cuerpo de la solicitud en JSON
-	if err := json.NewDecoder(r.Body).Decode(&requestBody); err != nil {
-		http.Error(w, "Cuerpo de la solicitud inválido", http.StatusBadRequest)
+	pid, err := strconv.Atoi(pidStr)
+	if err != nil {
+		http.Error(w, "PID inválido", http.StatusBadRequest)
 		return
 	}
-	pid := requestBody.PID
-	tid := requestBody.TID
+	tidStr = strings.TrimSpace(tidStr)
+	tidStr = strings.ReplaceAll(tidStr, "\n", "")
 
-	err := usecase.EliminarHilo(uint32(pid), uint32(tid))
+	tid, err := strconv.Atoi(tidStr)
+	if err != nil {
+		http.Error(w, "TID inválido", http.StatusBadRequest)
+		return
+	}
+
+	err = usecase.EliminarHilo(uint32(pid), uint32(tid))
 	if err != nil {
 		http.Error(w, "Error finalizando el hilo", http.StatusInternalServerError)
 		return

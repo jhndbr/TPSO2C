@@ -49,7 +49,7 @@ func CrearProcesoHandler(w http.ResponseWriter, r *http.Request) {
 					w.Write([]byte("OK"))
 				}
 				for i, p := range entity.Particiones {
-					slog.Info(fmt.Sprintf("Partición %d: Base=%d, Limite=%d, Libre=%v, PID=%d\n", i, p.Base, p.Limite, p.Libre, p.PID))
+					fmt.Printf("Partición %d: Base=%d, Limite=%d, Libre=%v, PID=%d\n", i, p.Base, p.Limite, p.Libre, p.PID)
 				}
 			}
 		} else {
@@ -70,7 +70,7 @@ func CrearProcesoHandler(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("OK"))
 		}
 		for i, p := range entity.Particiones {
-			slog.Info(fmt.Sprintf("Partición %d: Base=%d, Limite=%d, Libre=%v, PID=%d\n", i, p.Base, p.Limite, p.Libre, p.PID))
+			fmt.Printf("Partición %d: Base=%d, Limite=%d, Libre=%v, PID=%d\n", i, p.Base, p.Limite, p.Libre, p.PID)
 		}
 	}
 
@@ -133,7 +133,7 @@ func FinalizarProcesoHandler(w http.ResponseWriter, r *http.Request) {
 	//FALTA ELIMINAR ESTRUCTURAS DEL SISTEMA
 	//slog.Info("Memoria compactada y particiones libres consolidadas.")
 	for i, p := range entity.Particiones {
-		slog.Info(fmt.Sprintf("Partición %d: Base=%d, Limite=%d, Libre=%v, PID=%d\n", i, p.Base, p.Limite, p.Libre, p.PID))
+		fmt.Printf("Partición %d: Base=%d, Limite=%d, Libre=%v, PID=%d\n", i, p.Base, p.Limite, p.Libre, p.PID)
 	}
 	//falta el tamnio log minimo y obligatorio
 	slog.Info(fmt.Sprintf("## Proceso Destruido - PID: %d ", pid))

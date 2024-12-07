@@ -2,12 +2,10 @@ package test
 
 import (
 	"fmt"
-	"log/slog"
-	"testing"
-
 	"github.com/sisoputnfrba/tp-golang/memoria/internal/core/entity"
 	"github.com/sisoputnfrba/tp-golang/memoria/internal/core/usecase"
 	"github.com/sisoputnfrba/tp-golang/memoria/internal/infra/config"
+	"testing"
 )
 
 // TestInicializarParticion prueba que la función crea correctamente las particiones
@@ -79,7 +77,7 @@ func TestInicializarParticion(t *testing.T) {
 func TestAsignarParticionFirstFit(t *testing.T) {
 
 	memorySize := 512
-	//entity.Particiones = usecase.InicializarMemoriaDinamica(memorySize)
+	entity.Particiones = usecase.InicializarMemoriaDinamica(memorySize)
 	//entity.MemoriaUsuario = make([]int, memorySize)
 
 	pid := uint32(1)
@@ -97,7 +95,7 @@ func TestAsignarParticionFirstFit(t *testing.T) {
 	_, _ = usecase.AsignarParticionFirstFit(7, 100)
 	_, _ = usecase.AsignarParticionFirstFit(8, 200)
 	for i, p := range entity.Particiones {
-		slog.Info(fmt.Sprintf("Partición %d: Base=%d, Limite=%d, Libre=%v, PID=%d\n", i, p.Base, p.Limite, p.Libre, p.PID))
+		fmt.Printf("Partición %d: Base=%d, Limite=%d, Libre=%v, PID=%d\n", i, p.Base, p.Limite, p.Libre, p.PID)
 	}
 	fmt.Printf("-------------------------------------------------------------------------------------------\n")
 
@@ -106,7 +104,7 @@ func TestAsignarParticionFirstFit(t *testing.T) {
 	usecase.LiberarParticion(4)
 
 	for i, p := range entity.Particiones {
-		slog.Info(fmt.Sprintf("Partición %d: Base=%d, Limite=%d, Libre=%v, PID=%d\n", i, p.Base, p.Limite, p.Libre, p.PID))
+		fmt.Printf("Partición %d: Base=%d, Limite=%d, Libre=%v, PID=%d\n", i, p.Base, p.Limite, p.Libre, p.PID)
 	}
 	fmt.Printf("-------------------------------------------------------------------------------------------\n")
 

@@ -14,12 +14,11 @@ import (
 var blocked = false
 
 func validarSyscall(syscall dto.Syscall) error {
-	hilo := planificador.ObtenerHiloEXEC()
-	slog.Info("#", "PID:", hilo.PID, "TID:", hilo.TID, "Solicita Syscall:", syscall.Code)
+
 	switch syscall.Code {
 	case "PROCESS_CREATE":
-		//prioridad := syscall.PrioridadHiloMain
-		//slog.Debug("", "prioridad", prioridad)
+		prioridad := syscall.PrioridadHiloMain
+		slog.Info("", "prioridad", prioridad)
 		err := planificador.AtenderProcessCreate(syscall.FileName, syscall.ProcessSize, syscall.PrioridadHiloMain)
 		if err != nil {
 			return err
@@ -58,12 +57,14 @@ func validarSyscall(syscall dto.Syscall) error {
 		return fmt.Errorf("invalid syscall code: %s", syscall.Code)
 	}
 
+	//planificador.LockMutexSyscall()
 	if planificador.GetInterrupted() == true {
 		planificador.SignalInterrupt()
 
 	} else {
 		planificador.SignalPlanificador()
 	}
+	//planificador.UnlockMutexSyscall()
 
 	return nil
 }

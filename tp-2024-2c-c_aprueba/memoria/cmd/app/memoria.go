@@ -13,18 +13,7 @@ import (
 
 func main() {
 	var wg sync.WaitGroup
-	loglevel := config.GetInstance().LogLevel
-	switch loglevel {
-	case "INFO":
-		slog.SetLogLoggerLevel(slog.LevelInfo)
-	case "DEBUG":
-		slog.SetLogLoggerLevel(slog.LevelDebug)
-	case "ERROR":
-		slog.SetLogLoggerLevel(slog.LevelError)
-	default:
-		slog.SetLogLoggerLevel(slog.LevelInfo)
-		slog.Info("LogLevel invalido - Seteado en INFO por default")
-	}
+	slog.SetLogLoggerLevel(slog.LevelDebug)
 	conf := config.GetInstance()
 
 	if conf == nil {

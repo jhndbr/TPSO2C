@@ -212,7 +212,7 @@ func TerminarTodosLosHilos(proceso *entity.PCB) {
 	}
 }
 
-func ObtenerHiloEXEC() *entity.TCB {
+func ObtenerhiloEXEC() *entity.TCB {
 	return hiloEXEC
 }
 

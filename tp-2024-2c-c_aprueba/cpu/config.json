@@ -5,5 +5,5 @@
     "ip_kernel": "127.0.0.1",
     "port_kernel": 3061,
     "port": 3064,
-    "log_level": "INFO"
+    "log_level": "DEBUG"
 }
